@@ -10,22 +10,25 @@ import (
 )
 
 func main() {
-	if len(os.Args) != 2 {
-		fmt.Println("Must enter a dice role such as 3d6 or 4d6-l or 2d6+6")
+	if len(os.Args) < 2 {
+		fmt.Println("Must enter a dice role such as 3d6, 4d6-l, 2d6+6 or just stats")
 		return
 	}
 	args := os.Args[1]
 	roller := complexDiceRoller()
 	if args == "stats" {
 		fmt.Println("Rolling AD&D 1E using 4D6 drop lowest")
-		fmt.Println("STR: ", roller(6, 4, "-", "l"))
-		fmt.Println("DEX: ", roller(6, 4, "-", "l"))
-		fmt.Println("INT: ", roller(6, 4, "-", "l"))
-		fmt.Println("WIS: ", roller(6, 4, "-", "l"))
-		fmt.Println("CON: ", roller(6, 4, "-", "l"))
-		fmt.Println("CHR: ", roller(6, 4, "-", "l"))
-		fmt.Println("CMS: ", roller(6, 4, "-", "l"))
+		fmt.Println("STAT            VALUE")
+		fmt.Println("----            ----")
+		fmt.Println("STR:           ", roller(6, 4, "-", "l"))
+		fmt.Println("DEX:           ", roller(6, 4, "-", "l"))
+		fmt.Println("INT:           ", roller(6, 4, "-", "l"))
+		fmt.Println("WIS:           ", roller(6, 4, "-", "l"))
+		fmt.Println("CON:           ", roller(6, 4, "-", "l"))
+		fmt.Println("CHR:           ", roller(6, 4, "-", "l"))
+		fmt.Println("CMS:           ", roller(6, 4, "-", "l"))
 		fmt.Println("Psionics roll: ", roller(100, 1, "", ""))
+		fmt.Println()
 	} else {
 		reg := regexp.MustCompile(`([\d]*)d([\d]+)([\+\-]*)([\dlh]*)`)
 		results := reg.FindAllStringSubmatch(args, -1)
