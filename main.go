@@ -36,33 +36,41 @@ func main() {
 	}
 }
 
+func getModifier(mod string, min, max int) int {
+	modifier, err := strconv.Atoi(mod)
+	if err != nil {
+		if mod == "l" {
+			modifier = min
+		} else if mod == "h" {
+			modifier = max
+		} else {
+			modifier = 0
+		}
+	}
+	return modifier
+}
+
+func rollAndTrackMinAndMax(gen *rand.Rand, sides int, qty int) (total, min, max int) {
+	min = sides
+	for i := 0; i < qty; i++ {
+		roll := gen.Intn(sides) + 1
+		if min > roll {
+			min = roll
+		}
+		if max < roll {
+			max = roll
+		}
+		total += roll
+	}
+	return
+}
+
 func complexDiceRoller() func(sides int, qty int, mod string, value string) int {
 	s1 := rand.NewSource(time.Now().UnixNano())
 	r1 := rand.New(s1)
 	return func(sides int, qty int, mod string, value string) int {
-		total := 0
-		min := sides
-		max := 0
-		for i := 0; i < qty; i++ {
-			roll := r1.Intn(sides) + 1
-			if min > roll {
-				min = roll
-			}
-			if max < roll {
-				max = roll
-			}
-			total += roll
-		}
-		modifier, err := strconv.Atoi(value)
-		if err != nil {
-			if value == "l" {
-				modifier = min
-			} else if value == "h" {
-				modifier = max
-			} else {
-				modifier = 0
-			}
-		}
+		total, min, max := rollAndTrackMinAndMax(r1, sides, qty)
+		modifier := getModifier(value, min, max)
 		if mod == "+" {
 			total += modifier
 		} else if mod == "-" {
