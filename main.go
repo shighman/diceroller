@@ -6,6 +6,7 @@ import (
 	"os"
 	"regexp"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -20,14 +21,14 @@ func main() {
 		fmt.Println("Rolling AD&D 1E using 4D6 drop lowest")
 		fmt.Println("STAT            VALUE")
 		fmt.Println("----            ----")
-		fmt.Println("STR:           ", roller(6, 4, "-", "l"))
-		fmt.Println("DEX:           ", roller(6, 4, "-", "l"))
-		fmt.Println("INT:           ", roller(6, 4, "-", "l"))
-		fmt.Println("WIS:           ", roller(6, 4, "-", "l"))
-		fmt.Println("CON:           ", roller(6, 4, "-", "l"))
-		fmt.Println("CHR:           ", roller(6, 4, "-", "l"))
-		fmt.Println("CMS:           ", roller(6, 4, "-", "l"))
-		fmt.Println("Psionics roll: ", roller(100, 1, "", ""))
+		fmt.Println("STR:           ", padLeft(roller(6, 4, "-", "l"), 4))
+		fmt.Println("DEX:           ", padLeft(roller(6, 4, "-", "l"), 4))
+		fmt.Println("INT:           ", padLeft(roller(6, 4, "-", "l"), 4))
+		fmt.Println("WIS:           ", padLeft(roller(6, 4, "-", "l"), 4))
+		fmt.Println("CON:           ", padLeft(roller(6, 4, "-", "l"), 4))
+		fmt.Println("CHR:           ", padLeft(roller(6, 4, "-", "l"), 4))
+		fmt.Println("CMS:           ", padLeft(roller(6, 4, "-", "l"), 4))
+		fmt.Println("Psionics roll: ", padLeft(roller(100, 1, "", ""), 4))
 		fmt.Println()
 	} else {
 		reg := regexp.MustCompile(`([\d]*)d([\d]+)([\+\-]*)([\dlh]*)`)
@@ -37,6 +38,14 @@ func main() {
 		total := roller(sides, qty, results[0][3], results[0][4])
 		fmt.Println("Total for", results[0][0], "=", total)
 	}
+}
+
+func padLeft(number int, length int) string {
+	result := strconv.Itoa(number)
+	if len(result) < length {
+		result = strings.Repeat(" ", length-len(result)) + result
+	}
+	return result
 }
 
 func getModifier(mod string, min, max int) int {
