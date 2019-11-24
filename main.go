@@ -30,6 +30,15 @@ func main() {
 		fmt.Println("CMS:           ", padLeft(roller(6, 4, "-", "l"), 4))
 		fmt.Println("Psionics roll: ", padLeft(roller(100, 1, "", ""), 4))
 		fmt.Println()
+	} else if args == "loot" {
+		fmt.Println("Rolling tabletop looter shooter")
+		fmt.Println("STAT            VALUE")
+		fmt.Println("----            ----")
+		fmt.Println("STR:           ", padLeft(roller(6, 4, "-", "l"), 4))
+		fmt.Println("DEX:           ", padLeft(roller(6, 4, "-", "l"), 4))
+		fmt.Println("INT:           ", padLeft(roller(6, 4, "-", "l"), 4))
+		fmt.Println("AIM:           ", padLeft(roller(6, 4, "-", "l"), 4))
+		fmt.Println("LOOT:          ", padLeft(roller(6, 4, "-", "l"), 4))
 	} else {
 		reg := regexp.MustCompile(`([\d]*)d([\d]+)([\+\-]*)([\dlh]*)`)
 		results := reg.FindAllStringSubmatch(args, -1)
